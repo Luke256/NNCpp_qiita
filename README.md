@@ -61,3 +61,50 @@ int main(){
 
 ## 注意
 - 最後のレイヤーの活性化関数にsoftmaxを使用した場合、学習時の損失関数は`cen`を推奨
+
+## 軽いリファレンス
+
+<br>
+
+### Model::Model(int input_size)
+<hr>
+
+- input_size : 入力の数
+
+<br>
+
+### void Model::AddDenseLayer(int unit, std::string activation)
+<hr>
+
+- unit : ユニット数(ニューロンの数)
+- activation : 活性化関数(概要を参照。デフォルトはleaner)
+
+指定されたユニット数・活性化関数のレイヤーを追加します。
+
+<br>
+
+### std::vector<std::vector<long double>> Model::predict(const std::vector<std::vector<long double>>&data)
+<hr>
+
+- data : 入力データ
+
+入力データに対して推論を行います
+
+<br>
+
+### std::vector<long double> Model::fit(int step, long double learning_rate, std::vector<std::vector<long double>>&x, std::vector<std::vector<long double>>&y, int batch_size, std::string loss);
+<hr>
+
+- step : 学習回数
+- learning_rate : 学習率
+- x : 入力データ
+- y : 教師データ
+- batch_size : バッチ学習時のバッチに含めるデータ数
+- loss : 損失関数(概要を参照。デフォルトはクロスエントロピー誤差)
+
+<br>
+
+### void Model::print()
+<hr>
+
+モデルの各パラメータを表示します。
