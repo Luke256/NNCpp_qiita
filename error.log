@@ -1,0 +1,29 @@
+main.cpp: In function 'int main()':
+main.cpp:56:30: error: cannot convert 'std::vector<std::vector<double> >' to 'const std::vector<std::vector<long double> >&'
+   56 |     auto res = model.predict(x);
+      |                              ^
+      |                              |
+      |                              std::vector<std::vector<double> >
+In file included from main.cpp:1:
+Model.hpp:24:95: note:   initializing argument 1 of 'std::vector<std::vector<long double> > Model::predict(const std::vector<std::vector<long double> >&)'
+   24 |     std::vector<std::vector<long double>> predict(const std::vector<std::vector<long double>>&data);
+      |                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+main.cpp:68:42: error: cannot convert 'std::vector<std::vector<double> >' to 'std::vector<std::vector<long double> >&'
+   68 |     auto history = model.fit(1000, 0.01, x, y, 4, "cen");
+      |                                          ^
+      |                                          |
+      |                                          std::vector<std::vector<double> >
+In file included from main.cpp:1:
+Model.hpp:28:109: note:   initializing argument 3 of 'std::vector<long double> Model::fit(int, long double, std::vector<std::vector<long double> >&, std::vector<std::vector<long double> >&, int, std::string)'
+   28 |     std::vector<long double> fit(int step, long double learning_rate, std::vector<std::vector<long double>>&x, std::vector<std::vector<long double>>&y, int batch_size, std::string loss);
+      |                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+main.cpp:73:25: error: cannot convert 'std::vector<std::vector<double> >' to 'const std::vector<std::vector<long double> >&'
+   73 |     res = model.predict(x);
+      |                         ^
+      |                         |
+      |                         std::vector<std::vector<double> >
+In file included from main.cpp:1:
+Model.hpp:24:95: note:   initializing argument 1 of 'std::vector<std::vector<long double> > Model::predict(const std::vector<std::vector<long double> >&)'
+   24 |     std::vector<std::vector<long double>> predict(const std::vector<std::vector<long double>>&data);
+      |                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+make: *** [Main] Error 1

@@ -1,0 +1,6 @@
+./.vscode
+./error.log
+./Main
+./main.cpp
+./play.sh
+./Makefile
