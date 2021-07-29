@@ -38,17 +38,18 @@ namespace Loss{
     }
 
     std::vector<std::vector<long double>> mean_squared_error_back(long double x, std::vector<std::vector<long double>>absolute_error){
-        std::vector<std::vector<long double>>res;
+        // std::vector<std::vector<long double>>res;
 
-        for(int i = 0; i < absolute_error.size(); ++i){
-            std::vector<long double>t;
-            for(int j = 0; j < absolute_error[i].size(); ++j){
-                t.push_back(2*x*abs(absolute_error[i][j]));
-            }
-            res.push_back(t);
-        }
+        // for(int i = 0; i < absolute_error.size(); ++i){
+        //     std::vector<long double>t;
+        //     for(int j = 0; j < absolute_error[i].size(); ++j){
+        //         t.push_back(2*x*abs(absolute_error[i][j]));
+        //     }
+        //     res.push_back(t);
+        // }
 
-        return res;
+        // return res;
+        return absolute_error;
     }
 
     std::vector<std::vector<long double>> mean_cross_entropy_error_back(std::vector<std::vector<long double>>error){

@@ -1,10 +1,6 @@
 #include "Model.hpp"
 #include "Loss.hpp"
 
-using std::cout;
-using std::cin;
-using std::endl;
-
 Model::Model(int input_size):
 m_input_size(input_size),
 m_output_size(input_size),
@@ -30,13 +26,6 @@ std::vector<std::vector<long double>> Model::predict(const std::vector<std::vect
     return res;
 }
 
-void print_vec2(std::vector<std::vector<long double>> v){
-    for(auto i : v){
-        for(long double j : i)std::cout << j << " ";
-        std::cout << std::endl;
-    }
-    std::cout << "---" << std::endl;
-}
 void Model::backward(){
     std::vector<std::vector<long double>>data;
     // data = diff_error;
