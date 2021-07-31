@@ -1,16 +1,13 @@
 #pragma once
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
 #include "Layer.hpp"
-
-
 
 class Model{
 private:
     // mse : mean squared error
     // cen : mean cross-entropy error
 
-    int m_input_size, m_output_size, m_previous_unit;
-    bool m_compiled;
+    int m_input_size, m_output_size;
     std::vector<Layers::Dense>model;
     std::string m_loss;
     std::vector<std::vector<long double>> diff_error; // 相対誤差。maeとしても使えるけど、今回は二乗誤差の逆伝播(絶対値)、softmaxの逆伝播(そのまま)に使う

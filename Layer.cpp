@@ -1,17 +1,14 @@
 #include "Layer.hpp"
 
-Layers::Dense::Dense(int previous_unit, int unit, std::string activation){
-
-    std::vector<long double>b(unit);
-    bias = b;
-    std::vector<std::vector<long double>> n(unit, std::vector<long double>(previous_unit));
-    neuron = n;
-    Activation::Activation a(activation);
-    m_activation = a;
+Layers::Dense::Dense(int input_unit, int unit, std::string activation):
+bias(unit),
+neuron(unit, std::vector<long double>(input_unit)),
+m_activation(activation)
+{
 
     double sigma = 0.05;
-    if(activation == "relu") sigma = std::sqrt(2.0 / (double)previous_unit);
-    else if(activation == "sigmoid" || activation == "leaner") sigma = std::sqrt(1.0 / (double)previous_unit);
+    if(activation == "relu") sigma = std::sqrt(2.0 / (double)input_unit);
+    else if(activation == "sigmoid" || activation == "leaner") sigma = std::sqrt(1.0 / (double)input_unit);
     else sigma = 0.05;
 
     // initialize neuron and bias in random
@@ -20,7 +17,7 @@ Layers::Dense::Dense(int previous_unit, int unit, std::string activation){
     std::normal_distribution<> generator(0.0, sigma);
     for(int i = 0; i < unit; ++i){
         bias[i] = generator(engine);
-        for(int j = 0; j < previous_unit; ++j){
+        for(int j = 0; j < input_unit; ++j){
             neuron[i][j] = generator(engine);
         }
     }
@@ -82,7 +79,7 @@ std::vector<std::vector<long double>> Layers::Dense::backward(std::vector<std::v
         }
         ans.push_back(res);
     }
-    
+
     // dwを計算(dw : ニューロンの勾配)
     grad_layer.clear();
     for(int i = 0; i < neuron.size(); ++i){

@@ -3,9 +3,7 @@
 
 Model::Model(int input_size):
 m_input_size(input_size),
-m_output_size(input_size),
-m_compiled(false),
-m_previous_unit(input_size)
+m_output_size(input_size)
 {
 
 }

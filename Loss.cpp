@@ -13,11 +13,11 @@ namespace Loss{
                 sum += (y[i][j] - t[i][j]) * (y[i][j] - t[i][j]);
             }
 
-            sum /= 2;
+            sum /= 2*y.size();
             res+=sum;
         }
 
-        return res / y.size();
+        return res;
     }
 
     long double mean_cross_entropy_error(std::vector<std::vector<long double>> &y, std::vector<std::vector<long double>> &t){

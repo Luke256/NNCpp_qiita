@@ -1,6 +1,6 @@
 #include "Activation.hpp"
 
-std::vector<std::vector<long double>> Activation::Activation::sigmoid(std::vector<std::vector<long double>> &x)
+std::vector<std::vector<long double>> Activation::sigmoid(std::vector<std::vector<long double>> &x)
 {
     std::vector<std::vector<long double>> res;
 
@@ -19,7 +19,7 @@ std::vector<std::vector<long double>> Activation::Activation::sigmoid(std::vecto
     return res;
 }
 
-std::vector<std::vector<long double>> Activation::Activation::leaner(std::vector<std::vector<long double>> &x)
+std::vector<std::vector<long double>> Activation::leaner(std::vector<std::vector<long double>> &x)
 {
     std::vector<std::vector<long double>> res;
     for (auto batch : x)
@@ -35,7 +35,7 @@ std::vector<std::vector<long double>> Activation::Activation::leaner(std::vector
     return res;
 }
 
-std::vector<std::vector<long double>> Activation::Activation::soft_max(std::vector<std::vector<long double>> &x)
+std::vector<std::vector<long double>> Activation::softmax(std::vector<std::vector<long double>> &x)
 {
     std::vector<std::vector<long double>> res;
 
@@ -57,7 +57,7 @@ std::vector<std::vector<long double>> Activation::Activation::soft_max(std::vect
     return res;
 }
 
-std::vector<std::vector<long double>> Activation::Activation::relu(std::vector<std::vector<long double>> &x)
+std::vector<std::vector<long double>> Activation::relu(std::vector<std::vector<long double>> &x)
 {
     std::vector<std::vector<long double>> res;
 
@@ -73,7 +73,7 @@ std::vector<std::vector<long double>> Activation::Activation::relu(std::vector<s
     return res;
 }
 
-std::vector<std::vector<long double>> Activation::Activation::relu_back(std::vector<std::vector<long double>> &x)
+std::vector<std::vector<long double>> Activation::relu_back(std::vector<std::vector<long double>> &x)
 {
     std::vector<std::vector<long double>> res = x;
 
@@ -90,7 +90,7 @@ std::vector<std::vector<long double>> Activation::Activation::relu_back(std::vec
 }
 
 
-std::vector<std::vector<long double>> Activation::Activation::sigmoid_back(std::vector<std::vector<long double>> &x){
+std::vector<std::vector<long double>> Activation::sigmoid_back(std::vector<std::vector<long double>> &x){
     std::vector<std::vector<long double>>res;
 
     for(int i = 0; i < x.size(); ++i){
@@ -104,31 +104,26 @@ std::vector<std::vector<long double>> Activation::Activation::sigmoid_back(std::
     return res;
 }
 
-std::vector<std::vector<long double>> Activation::Activation::soft_max_back(std::vector<std::vector<long double>> &x){
+std::vector<std::vector<long double>> Activation::softmax_back(std::vector<std::vector<long double>> &x){
     return x;
 }
 
-Activation::Activation::Activation() {}
-Activation::Activation::Activation(std::string name) : m_name(name) {}
-std::vector<std::vector<long double>> Activation::Activation::forward(std::vector<std::vector<long double>> &x)
+Activation::Activation() {}
+Activation::Activation(std::string name) : m_name(name) {}
+std::vector<std::vector<long double>> Activation::forward(std::vector<std::vector<long double>> &x)
 {
     last_data = x;
-    if (m_name == "sigmoid")
-        return sigmoid(x);
-    else if (m_name == "leaner")
-        return leaner(x);
-    else if (m_name == "softmax")
-        return soft_max(x);
-    else if (m_name == "relu")
-        return relu(x);
-    else
-        return x;
+    if (m_name == "sigmoid") return sigmoid(x);
+    else if (m_name == "leaner") return leaner(x);
+    else if (m_name == "softmax") return softmax(x);
+    else if (m_name == "relu") return relu(x);
+    else return x;
 }
 
-std::vector<std::vector<long double>> Activation::Activation::backward(std::vector<std::vector<long double>> &x)
+std::vector<std::vector<long double>> Activation::backward(std::vector<std::vector<long double>> &x)
 {
     if(m_name == "sigmoid") return sigmoid_back(x);
-    else if(m_name == "softmax") return soft_max_back(x);
+    else if(m_name == "softmax") return softmax_back(x);
     if (m_name == "relu")
         return relu_back(x);
     else
