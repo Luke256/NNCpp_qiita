@@ -8,7 +8,7 @@ public:
 
     std::vector<std::vector<long double>> sigmoid(std::vector<std::vector<long double>> &x);
 
-    std::vector<std::vector<long double>> leaner(std::vector<std::vector<long double>> &x);
+    std::vector<std::vector<long double>> linear(std::vector<std::vector<long double>> &x);
 
     std::vector<std::vector<long double>> softmax(std::vector<std::vector<long double>> &x);
 

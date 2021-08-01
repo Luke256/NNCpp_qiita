@@ -19,7 +19,7 @@ std::vector<std::vector<long double>> Activation::sigmoid(std::vector<std::vecto
     return res;
 }
 
-std::vector<std::vector<long double>> Activation::leaner(std::vector<std::vector<long double>> &x)
+std::vector<std::vector<long double>> Activation::linear(std::vector<std::vector<long double>> &x)
 {
     std::vector<std::vector<long double>> res;
     for (auto batch : x)
@@ -114,7 +114,7 @@ std::vector<std::vector<long double>> Activation::forward(std::vector<std::vecto
 {
     last_data = x;
     if (m_name == "sigmoid") return sigmoid(x);
-    else if (m_name == "leaner") return leaner(x);
+    else if (m_name == "linear") return linear(x);
     else if (m_name == "softmax") return softmax(x);
     else if (m_name == "relu") return relu(x);
     else return x;
