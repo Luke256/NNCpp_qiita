@@ -77,7 +77,7 @@ std::vector<std::vector<long double>> Activation::relu_back(std::vector<std::vec
 {
     std::vector<std::vector<long double>> res = x;
 
-    // 対応する最後に受け取った入力がo未満なら0、そうでないのならxをそのまま
+    // 対応する最後に受け取った入力が0未満なら0、そうでないのならxをそのまま
     for (int i = 0; i < x.size(); ++i)
     {
         for (int j = 0; j < x[i].size(); ++j)
@@ -96,7 +96,7 @@ std::vector<std::vector<long double>> Activation::sigmoid_back(std::vector<std::
     for(int i = 0; i < x.size(); ++i){
         std::vector<long double>t;
         for(int j = 0; j < x[i].size(); ++j){
-            t.push_back(x[i][j] * (1 - last_data[i][j]) * x[i][j]);
+            t.push_back(x[i][j] * (1 - last_data[i][j]) * last_data[i][j]);
         }
         res.push_back(t);
     }

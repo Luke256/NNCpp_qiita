@@ -4,3 +4,5 @@ Main
 main.cpp
 play.sh
 Makefile
+
+*.o
