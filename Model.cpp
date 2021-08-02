@@ -27,7 +27,7 @@ std::vector<std::vector<long double>> Model::predict(const std::vector<std::vect
 void Model::backward(){
     std::vector<std::vector<long double>>data;
     // data = diff_error;
-    if(m_loss == "mse") data = Loss::mean_squared_error_back(1, diff_error);
+    if(m_loss == "mse") data = Loss::mean_squared_error_back(diff_error);
     else data = Loss::mean_cross_entropy_error_back(diff_error);
 
 
@@ -37,22 +37,22 @@ void Model::backward(){
 }
 
 // パラメータ(ニューロン間)用
-std::vector<std::vector<long double>> Model::numerical_gradient_layer(std::vector<std::vector<long double>>&batch_x, std::vector<std::vector<long double>>&batch_y, int x){
+std::vector<std::vector<long double>> Model::numerical_gradient_layer(std::vector<std::vector<long double>>&batch_x, std::vector<std::vector<long double>>&batch_y, int index){
     
     long double h = 1e-4;
-    std::vector<std::vector<long double>> grad(model[x].neuron.size(), std::vector<long double>(model[x].neuron[0].size()));
+    std::vector<std::vector<long double>> grad(model[index].neuron.size(), std::vector<long double>(model[index].neuron[0].size()));
     for(int i = 0; i < grad.size(); ++i){
         for(int j = 0; j < grad[i].size(); ++j){
-            long double tmp = model[x].neuron[i][j];
+            long double tmp = model[index].neuron[i][j];
 
-            model[x].neuron[i][j] = tmp + h;
+            model[index].neuron[i][j] = tmp + h;
             long double fxh1 = caluculate_loss(batch_x, batch_y);
 
-            model[x].neuron[i][j] = tmp - h;
+            model[index].neuron[i][j] = tmp - h;
             long double fxh2 = caluculate_loss(batch_x, batch_y);
 
             grad[i][j] = (fxh1 - fxh2) / (2 * h);
-            model[x].neuron[i][j] = tmp;
+            model[index].neuron[i][j] = tmp;
         }
     }
 
@@ -60,21 +60,21 @@ std::vector<std::vector<long double>> Model::numerical_gradient_layer(std::vecto
 }
 
 // バイアス用
-std::vector<long double> Model::numerical_gradient_bias(std::vector<std::vector<long double>>&batch_x, std::vector<std::vector<long double>>&batch_y, int x){
+std::vector<long double> Model::numerical_gradient_bias(std::vector<std::vector<long double>>&batch_x, std::vector<std::vector<long double>>&batch_y, int index){
     // f: この場合損失を返す関数であればいい
     long double h = 1e-4;
-    std::vector<long double> grad(model[x].bias.size());
+    std::vector<long double> grad(model[index].bias.size());
     for(int i = 0; i < grad.size(); ++i){
-        long double tmp = model[x].bias[i];
+        long double tmp = model[index].bias[i];
 
-        model[x].bias[i] = tmp + h;
+        model[index].bias[i] = tmp + h;
         long double fxh1 = caluculate_loss(batch_x, batch_y);
 
-        model[x].bias[i] = tmp - h;
+        model[index].bias[i] = tmp - h;
         long double fxh2 = caluculate_loss(batch_x, batch_y);
 
         grad[i] = (fxh1 - fxh2) / (2 * h);
-        model[x].bias[i] = tmp;
+        model[index].bias[i] = tmp;
     }
 
     return grad;
