@@ -3,7 +3,9 @@
 Layers::Dense::Dense(int input_unit, int unit, std::string activation):
 bias(unit),
 neuron(unit, std::vector<long double>(input_unit)),
-m_activation(activation)
+m_activation(activation),
+h_bias(0),
+h_layer(0, std::vector<long double>(0))
 {
 
     double sigma = 0.05;

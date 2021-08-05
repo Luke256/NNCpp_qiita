@@ -14,6 +14,8 @@ namespace Layers{
         std::vector<std::vector<long double>>grad_layer;
         std::vector<long double>grad_bias;
 
+        std::vector<std::vector<long double>> h_layer; // AdaGrad用パラメータ
+        std::vector<long double> h_bias; // AdaGrad用パラメータ
 
         Dense(int input_unit, int unit, std::string activation);
         std::vector<std::vector<long double>>forward(std::vector<std::vector<long double>>&data); // 1dim:data set / 2dim:data detail

@@ -124,8 +124,6 @@ std::vector<std::vector<long double>> Activation::backward(std::vector<std::vect
 {
     if(m_name == "sigmoid") return sigmoid_back(x);
     else if(m_name == "softmax") return softmax_back(x);
-    if (m_name == "relu")
-        return relu_back(x);
-    else
-        return x;
+    if (m_name == "relu") return relu_back(x);
+    else return x;
 }

@@ -3,13 +3,15 @@
 
 Model::Model(int input_size):
 m_input_size(input_size),
-m_output_size(input_size)
+m_output_size(input_size),
+compiled(false)
 {
 
 }
 
 void Model::AddDenseLayer(int unit, std::string activation){
     Layers::Dense dense(m_output_size, unit, activation);
+
     model.push_back(dense);
     m_output_size = unit;
 }
@@ -29,7 +31,6 @@ void Model::backward(){
     // data = diff_error;
     if(m_loss == "mse") data = Loss::mean_squared_error_back(diff_error);
     else data = Loss::mean_cross_entropy_error_back(diff_error);
-
 
     for(int i = model.size() - 1; i>=0; --i){
         data = model[i].backward(data);
@@ -83,9 +84,14 @@ std::vector<long double> Model::numerical_gradient_bias(std::vector<std::vector<
 // 学習
 std::vector<long double> Model::fit(int step, long double learning_rate, std::vector<std::vector<long double>>&x, std::vector<std::vector<long double>>&y, int batch_size, std::string loss){
 
+
     std::vector<long double>history;
     m_loss=loss;
 
+    if(!compiled){
+        std::cout << "コンパイルがまだです" << std::endl;
+        return history;
+    }
 
     for(int current_step = 0; current_step < step; ++current_step){
         std::vector<std::vector<long double>>batch_x, batch_y;
@@ -128,13 +134,23 @@ std::vector<long double> Model::fit(int step, long double learning_rate, std::ve
             // 1.layerの調整
             for(int i = 0; i < layer_grad.size(); ++i){
                 for(int j = 0; j < layer_grad[i].size(); ++j){
-                    layer.neuron[i][j] -= learning_rate * layer_grad[i][j];
+                    if(m_optimizer == "adagrad"){
+                        layer.h_layer[i][j] += layer_grad[i][j] * layer_grad[i][j];
+                        layer.neuron[i][j] -= learning_rate * layer_grad[i][j] * (1 / (sqrt(layer.h_layer[i][j]) + 1e-7));
+                    }
+
+                    else layer.neuron[i][j] -= learning_rate * layer_grad[i][j];
                 }
             }
 
             // 2.biasの調整
             for(int i = 0; i < bias_grad.size(); ++i){
-                layer.bias[i] -= learning_rate * bias_grad[i];
+                if(m_optimizer == "adagrad"){
+                    layer.h_bias[i] += bias_grad[i] * bias_grad[i];
+                    layer.bias[i] -= learning_rate * bias_grad[i] * (1 / (sqrt(layer.h_bias[i]) + 1e-7));
+                }
+                
+                else layer.bias[i] -= learning_rate * bias_grad[i];
             }
 
             ++index;
@@ -165,4 +181,16 @@ void Model::print(){
         }
         std::cout << std::endl << std::endl;
     }
+}
+
+void Model::compile(std::string optimizer){
+    m_optimizer = optimizer;
+    if(optimizer == "adagrad"){
+        for(auto &i : model){
+            i.h_layer.resize(i.neuron.size(), std::vector<long double>(i.neuron[0].size()));
+            i.h_bias.resize(i.bias.size());
+        }
+    }
+
+    compiled = true;
 }
