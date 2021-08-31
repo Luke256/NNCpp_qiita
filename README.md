@@ -2,12 +2,12 @@
 ## 概要
 C++上でのニューラルネットワーク
 
-- 使用するデータ型:`std::vector<std::vector<long double>>`
+- 使用するデータ型:`std::vector<std::vector<double>>`
     ({{データ1}, {データ2}, {データ3}, ...} と言った感じ)
 - 使用可能なレイヤー:Denseのみ
 - 使用可能な活性化関数:恒等関数("linear")、シグモイド関数("sigmoid")、ReLU関数("relu")、softmax関数 / デフォルト:恒等関数
 - 使用可能な損失関数:二乗誤差("mse")、クロスエントロピー誤差("cen") / デフォルト:クロスエントロピー誤差
-- 使用可能な最適化関数:確率的勾配降下法("sgd")、AdaGrad("adagrad") / デフォルト:確率的勾配降下法
+- 使用可能な最適化関数:確率的勾配降下法("SGD")、AdaGrad("AdaGrad")、RMSProp("RMSProp")、Momentum SGD("Momentum")、Adam("Adam") / デフォルト:確率的勾配降下法
 
 ## 使用コード例
 
@@ -20,18 +20,18 @@ Makefileがあるので、ざっと見て使えそうだったら使ってみて
 using namespace std;
 
 int main(){
-    Model model(2);
-    model.AddDenseLayer(64, "relu");
-    model.AddDenseLayer(2, "softmax");
+    NNModel model(2);
+    model.AddDenseLayer(64, ActivationType::Relu);
+    model.AddDenseLayer(2, ActivationType::Softmax);
 
-    vector<vector<long double>> x = 
+    vector<vector<double>> x = 
     {
         {1, 0},
         {1, 1},
         {0, 0},
         {0, 1}
     };
-    vector<vector<long double>> y = 
+    vector<vector<double>> y = 
     {
         {0, 1},
         {1, 0},
@@ -82,7 +82,7 @@ int main(){
 
 <br>
 
-### void Model::AddDenseLayer(int unit, std::string activation)
+### void Model::AddDenseLayer(int unit, ActivationType activation)
 <hr>
 
 - unit : ユニット数(ニューロンの数)

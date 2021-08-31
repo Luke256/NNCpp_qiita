@@ -4,5 +4,7 @@ Main
 main.cpp
 play.sh
 Makefile
+MNIST/
+Dataset.*
 
 *.o
