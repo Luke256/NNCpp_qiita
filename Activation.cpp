@@ -123,7 +123,7 @@ std::vector<std::vector<double>> Activation::forward(std::vector<std::vector<dou
 std::vector<std::vector<double>> Activation::backward(std::vector<std::vector<double>> &x)
 {
     if(m_name == ActivationType::Sigmoid) return sigmoid_back(x);
-    else if(m_name == ActivationType::SoftMax) return softmax_back(x);
-    if (m_name == ActivationType::Relu) return relu_back(x);
+    else if (m_name == ActivationType::SoftMax) return softmax_back(x);
+    else if (m_name == ActivationType::Relu) return relu_back(x);
     else return x;
 }

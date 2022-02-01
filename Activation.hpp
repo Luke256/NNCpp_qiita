@@ -5,7 +5,8 @@ enum ActivationType{
     Sigmoid,
     Linear,
     SoftMax,
-    Relu
+    Relu,
+    Huber
 };
 
 class Activation
