@@ -145,12 +145,12 @@ std::vector<double> NNModel::fit(int step, double learning_rate, std::vector<std
                         layer.neuron[i][j] -= learning_rate * layer_grad[i][j] * (1 / (sqrt(layer.h_layer[i][j] + 1e-7)));
                     }
                     else if(m_optimizer == "Momentum"){
-                        layer.v_layer[i][j] = Momentum_alpha * layer.v_layer[i][j] - learning_rate * layer_grad[i][j];
+                        layer.v_layer[i][j] = Momentum_alpha * layer.v_layer[i][j] + learning_rate * layer_grad[i][j];
                         layer.neuron[i][j] += layer.v_layer[i][j];
                     }
                     else if(m_optimizer == "Adam"){
                         layer.h_layer[i][j] = RMSProp_beta * layer.h_layer[i][j] + (1 - RMSProp_beta) * layer_grad[i][j] * layer_grad[i][j];
-                        layer.v_layer[i][j] = Momentum_alpha * layer.v_layer[i][j] - (1 - Momentum_alpha) * layer_grad[i][j];
+                        layer.v_layer[i][j] = Momentum_alpha * layer.v_layer[i][j] + (1 - Momentum_alpha) * layer_grad[i][j];
                         double om = layer.h_layer[i][j] / (1 - Adam_R_beta);
                         double ov = layer.v_layer[i][j] / (1 - Adam_M_beta);
                         layer.neuron[i][j] -= learning_rate * ov * (1 / (sqrt(om) + 1e-7));
@@ -170,26 +170,22 @@ std::vector<double> NNModel::fit(int step, double learning_rate, std::vector<std
                     layer.bias[i] -= learning_rate * bias_grad[i] * (1 / (sqrt(layer.h_bias[i] + 1e-7)));
                 }
                 else if(m_optimizer == "Momentum"){
-                    layer.v_bias[i] = Momentum_alpha * layer.v_bias[i] - learning_rate * bias_grad[i];
+                    layer.v_bias[i] = Momentum_alpha * layer.v_bias[i] + learning_rate * bias_grad[i];
                     layer.bias[i] += layer.v_bias[i];
                 }
                 else if(m_optimizer == "Adam"){
                     layer.h_bias[i] = RMSProp_beta * layer.h_bias[i] + (1 - RMSProp_beta) * bias_grad[i] * bias_grad[i];
-                    layer.v_bias[i] = Momentum_alpha * layer.v_bias[i] - (1 - Momentum_alpha) * bias_grad[i];
+                    layer.v_bias[i] = Momentum_alpha * layer.v_bias[i] + (1 - Momentum_alpha) * bias_grad[i];
                     double om = layer.h_bias[i] / (1 - Adam_R_beta);
                     double ov = layer.v_bias[i] / (1 - Adam_M_beta);
                     layer.bias[i] -= learning_rate * ov * (1 / (sqrt(om) + 1e-7));
                 }
                 else layer.bias[i] -= learning_rate * bias_grad[i];
             }
-
-
-            Adam_R_beta *= RMSProp_beta;
-            Adam_M_beta *= Momentum_alpha;
-
             ++index;
         }
-
+        Adam_R_beta *= RMSProp_beta;
+        Adam_M_beta *= Momentum_alpha;
         // 学習経過の記録
         history.push_back(loss_step);
 
