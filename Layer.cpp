@@ -45,7 +45,7 @@ std::vector<std::vector<double>> Layers::Dense::forward(std::vector<std::vector<
                 t+=i[k]*neuron[j][k];
             }
 
-            t-=bias[j];
+            t+=bias[j];
 
             res.push_back(t);
         }
