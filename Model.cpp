@@ -145,7 +145,7 @@ std::vector<double> NNModel::fit(int step, double learning_rate, std::vector<std
                         layer.neuron[i][j] -= learning_rate * layer_grad[i][j] * (1 / (sqrt(layer.h_layer[i][j] + 1e-7)));
                     }
                     else if(m_optimizer == "Momentum"){
-                        layer.v_layer[i][j] = Momentum_alpha * layer.v_layer[i][j] + learning_rate * layer_grad[i][j];
+                        layer.v_layer[i][j] = Momentum_alpha * layer.v_layer[i][j] - learning_rate * layer_grad[i][j];
                         layer.neuron[i][j] += layer.v_layer[i][j];
                     }
                     else if(m_optimizer == "Adam"){
@@ -170,7 +170,7 @@ std::vector<double> NNModel::fit(int step, double learning_rate, std::vector<std
                     layer.bias[i] -= learning_rate * bias_grad[i] * (1 / (sqrt(layer.h_bias[i] + 1e-7)));
                 }
                 else if(m_optimizer == "Momentum"){
-                    layer.v_bias[i] = Momentum_alpha * layer.v_bias[i] + learning_rate * bias_grad[i];
+                    layer.v_bias[i] = Momentum_alpha * layer.v_bias[i] - learning_rate * bias_grad[i];
                     layer.bias[i] += layer.v_bias[i];
                 }
                 else if(m_optimizer == "Adam"){
